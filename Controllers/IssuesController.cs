@@ -35,7 +35,6 @@ namespace IssueTracker.Controllers
             OrderProperties.Add(new SelectListItem { Text = "Deadline" });
             ViewData["OrderProperties"] = OrderProperties;
 
-
             // Order by various properties
             if (nameof(Issue.Priority) == OrderProperty)
             {
