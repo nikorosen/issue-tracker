@@ -21,7 +21,7 @@ namespace IssueTracker.Controllers
         }
 
         // GET: Issues
-        public async Task<IActionResult> Index(string SearchString, bool GetCurrentUserIssues, bool OrderByPriority, string OrderProperty)
+        public async Task<IActionResult> Index(string SearchString, bool GetCurrentUserIssues, bool OrderByPriority, string OrderProperty, bool OrderByDescending)
         {
             var issues = from i in _context.Issue select i;
 
@@ -38,14 +38,19 @@ namespace IssueTracker.Controllers
             // Order by various properties
             if (nameof(Issue.Priority) == OrderProperty)
             {
-                issues = issues.OrderByDescending(i => i.Priority);
+                if (OrderByDescending)
+                    issues = issues.OrderByDescending(i => i.Priority);
+                else
+                    issues = issues.OrderBy(i => i.Priority);
             }
 
             if (nameof(Issue.Deadline) == OrderProperty)
             {
-                issues = issues.OrderByDescending(i => i.Deadline);
+                if (OrderByDescending)
+                    issues = issues.OrderByDescending(i => i.Deadline);
+                else
+                    issues = issues.OrderBy(i => i.Deadline);
             }
-
 
             if (!String.IsNullOrEmpty(SearchString))
             {
