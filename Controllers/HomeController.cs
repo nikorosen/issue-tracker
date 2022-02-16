@@ -15,10 +15,7 @@ namespace IssueTracker.Controllers
 
         public IActionResult Index()
         {
-            //return Redirect("Issues");//, "IssuesController");
-            
-            return View();
-
+            return Redirect("Issues");//, "IssuesController");
         }
 
         public IActionResult Privacy()
