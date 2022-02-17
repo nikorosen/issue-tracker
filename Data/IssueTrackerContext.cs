@@ -16,7 +16,8 @@ namespace IssueTracker.Data
         {
         }
 
-        public DbSet<IssueTracker.Models.Issue> Issue { get; set; }
+        public DbSet<Issue> Issue { get; set; }
+        public DbSet<IssueLog> IssueLog { get; set; }
         public DbSet<User> User { get; set; }
     }
 }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IssueTracker.Migrations
 {
     [DbContext(typeof(IssueTrackerContext))]
-    [Migration("20220212202001_ModifyIssueNavPropertyRemoveUser")]
-    partial class ModifyIssueNavPropertyRemoveUser
+    [Migration("20220217001353_AddBackIssueLog")]
+    partial class AddBackIssueLog
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,13 +36,24 @@ namespace IssueTracker.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsComplete")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -55,6 +66,8 @@ namespace IssueTracker.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Issue");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Issue");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -265,15 +278,29 @@ namespace IssueTracker.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("IssueTracker.Models.IssueLog", b =>
+                {
+                    b.HasBaseType("IssueTracker.Models.Issue");
+
+                    b.Property<bool?>("DeadlineMet")
+                        .HasColumnType("bit");
+
+                    b.HasDiscriminator().HasValue("IssueLog");
+                });
+
             modelBuilder.Entity("IssueTracker.Models.User", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasDiscriminator().HasValue("User");
                 });

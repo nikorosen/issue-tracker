@@ -4,7 +4,7 @@
 
 namespace IssueTracker.Migrations
 {
-    public partial class ModifyIssueNavPropertyRemoveUser : Migration
+    public partial class Init2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

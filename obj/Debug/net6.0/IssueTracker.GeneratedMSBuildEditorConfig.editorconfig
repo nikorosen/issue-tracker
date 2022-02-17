@@ -47,6 +47,30 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Nick/source/repos/IssueTracker/Views/IssueLogs/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVMb2dzXENyZWF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nick/source/repos/IssueTracker/Views/IssueLogs/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVMb2dzXERlbGV0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nick/source/repos/IssueTracker/Views/IssueLogs/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVMb2dzXERldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nick/source/repos/IssueTracker/Views/IssueLogs/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVMb2dzXEVkaXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nick/source/repos/IssueTracker/Views/IssueLogs/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVMb2dzXEluZGV4LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Nick/source/repos/IssueTracker/Views/Issues/Archive.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVzXEFyY2hpdmUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Nick/source/repos/IssueTracker/Views/Issues/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSXNzdWVzXENyZWF0ZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

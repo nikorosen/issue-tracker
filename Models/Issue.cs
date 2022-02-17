@@ -6,6 +6,7 @@ namespace IssueTracker.Models
     public class Issue
     {
         public int Id { get; set; }
+        public string? Discriminator { get; set; }
 
         [StringLength(60, MinimumLength = 3)]
         [Required]
@@ -21,12 +22,10 @@ namespace IssueTracker.Models
         [Required]
         public int Priority { get; set; }
 
-        //public virtual CompletedBy? CompletedBy { get; set; }
-        //public virtual AssignedTo? AssignedTo { get; set; }
-
         // nav properties
         [DisplayName("Assigned user")]
         public string? UserName { get; set; }
         //public User User { get; set; }
+        
     }
 }

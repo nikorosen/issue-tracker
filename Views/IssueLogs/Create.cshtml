@@ -1,17 +1,23 @@
-﻿@model IssueTracker.Models.Issue
+﻿@model IssueTracker.Models.IssueLog
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Create</h1>
 
-<h4>Issue</h4>
+<h4>IssueLog</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DeadlineMet" class="control-label"></label>
+                <input asp-for="DeadlineMet" class="form-control" />
+                <span asp-validation-for="DeadlineMet" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -33,11 +39,10 @@
                 <span asp-validation-for="Priority" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @Html.DropDownList("UserName", 
-                (IEnumerable<SelectListItem>)ViewBag.UserName,
-                "select user name")
+                <label asp-for="UserName" class="control-label"></label>
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
             </div>
-
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

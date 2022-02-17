@@ -21,14 +21,11 @@ namespace IssueTracker.Controllers
         }
 
         // GET: Issues
-        public async Task<IActionResult> Index(string SearchString, bool GetCurrentUserIssues, bool OrderByPriority, string OrderProperty, bool OrderByDescending)
+        public async Task<IActionResult> Index(string SearchString, bool GetCurrentUserIssues, bool OrderByPriority, string OrderProperty, bool OrderByDescending, bool GetCompletedIssues)
         {
-            var issues = from i in _context.Issue select i;
+            var issues = from i in _context.Issue where i.Discriminator == "Issue" select i;
 
-            //if (OrderByPriority)
-            //{
-            //    issues = issues.OrderByDescending(i => i.Priority);
-            //}
+            //issues = issues.Where(i => !i.IsComplete);
 
             List<SelectListItem> OrderProperties = new List<SelectListItem>();
             OrderProperties.Add(new SelectListItem { Text = "Priority" });
@@ -59,11 +56,10 @@ namespace IssueTracker.Controllers
 
             if (GetCurrentUserIssues)
             {
-                issues = issues.Where(i => i.UserName.Contains(User.Identity.Name));
+                issues = issues.Where(i => i.UserName == User.Identity.Name);
             }
-            
 
-            return View(issues); //await _context.Issue.ToListAsync());
+            return View(issues); 
         }
 
         // GET: Issues/Details/5
@@ -241,9 +237,44 @@ namespace IssueTracker.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Issues/Delete/5
+        public async Task<IActionResult> Archive(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var issue = await _context.Issue
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (issue == null)
+            {
+                return NotFound();
+            }
+
+            return View(issue);
+        }
+
+        // POST: Issues/Delete/5
+        [HttpPost, ActionName("Archive")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ArchiveConfirmed(int id)
+        {
+            var issue = await _context.Issue.FindAsync(id);
+
+            var issueLog = new IssueLog(issue);
+            _context.Add(issueLog);
+
+            _context.Issue.Remove(issue);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         private bool IssueExists(int id)
         {
             return _context.Issue.Any(e => e.Id == id);
         }
+
+        private void AddIssueToUser(Issue issue) { }
     }
 }
