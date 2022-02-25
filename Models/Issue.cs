@@ -23,7 +23,7 @@ namespace IssueTracker.Models
         public int Priority { get; set; }
 
         // nav properties
-        [DisplayName("Assigned user")]
+        [DisplayName("Assigned User")]
         public string? UserName { get; set; }
         //public User User { get; set; }
         
