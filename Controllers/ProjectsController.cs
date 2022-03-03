@@ -31,14 +31,12 @@ namespace IssueTracker.Controllers
             return RedirectToAction("Create", "Issues", new { ProjectName = projectName });
         }
 
-        public async Task<IActionResult> Issues(string projectName, string SearchString, bool GetCurrentUserIssues, bool OrderByPriority, string OrderProperty, bool OrderByDescending, bool GetCompletedIssues)
+        public async Task<IActionResult> Issues(string projectName, string SearchString, bool GetCurrentUserIssues, string OrderProperty, bool OrderByDescending)
         {
             var issues = from i in _context.Issue
                          where i.Discriminator == "Issue"
                          && i.ProjectName == projectName
                          select i;
-
-            //issues = issues.Where(i => !i.IsComplete);
 
             List<SelectListItem> OrderProperties = new List<SelectListItem>();
             OrderProperties.Add(new SelectListItem { Text = "Priority" });
@@ -77,9 +75,47 @@ namespace IssueTracker.Controllers
             return View(issues);
         }
 
-        public async Task<IActionResult> IssueLogs()
+        public async Task<IActionResult> IssueLogs(string projectName, string SearchString, bool GetCurrentUserIssues, string OrderProperty, bool OrderByDescending)
         {
-            return View(await _context.Project_1.ToListAsync());
+            var issues = from i in _context.Issue
+                         where i.Discriminator == "IssueLog"
+                         && i.ProjectName == projectName
+                         select i;
+
+            List<SelectListItem> OrderProperties = new List<SelectListItem>();
+            OrderProperties.Add(new SelectListItem { Text = "Priority" });
+            OrderProperties.Add(new SelectListItem { Text = "Deadline" });
+            ViewData["OrderProperties"] = OrderProperties;
+
+            // Order by various properties
+            if (nameof(Issue.Priority) == OrderProperty)
+            {
+                if (OrderByDescending)
+                    issues = issues.OrderByDescending(i => i.Priority);
+                else
+                    issues = issues.OrderBy(i => i.Priority);
+            }
+
+            if (nameof(Issue.Deadline) == OrderProperty)
+            {
+                if (OrderByDescending)
+                    issues = issues.OrderByDescending(i => i.Deadline);
+                else
+                    issues = issues.OrderBy(i => i.Deadline);
+            }
+
+            if (!String.IsNullOrEmpty(SearchString))
+            {
+                issues = issues.Where(i => i.UserName.Contains(SearchString));
+            }
+
+            if (GetCurrentUserIssues)
+            {
+                issues = issues.Where(i => i.UserName == User.Identity.Name);
+            }
+
+            ViewData["ProjectName"] = projectName;
+            return View(issues);
         }
 
         // GET: Projects/Details/5

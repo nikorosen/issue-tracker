@@ -61,8 +61,10 @@ namespace IssueTracker.Controllers
         }
 
         // GET: IssueLogs/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string projectName)
         {
+            ViewData["ProjectName"] = projectName;
+
             if (id == null)
             {
                 return NotFound();
@@ -152,8 +154,10 @@ namespace IssueTracker.Controllers
         }
 
         // GET: IssueLogs/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, string projectName)
         {
+            ViewData["ProjectName"] = projectName;
+
             if (id == null)
             {
                 return NotFound();
@@ -177,7 +181,7 @@ namespace IssueTracker.Controllers
             var issueLog = await _context.IssueLog.FindAsync(id);
             _context.IssueLog.Remove(issueLog);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("IssueLogs", "Projects", new { projectName = issueLog.ProjectName });
         }
 
         private bool IssueLogExists(int id)

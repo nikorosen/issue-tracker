@@ -21,7 +21,7 @@ namespace IssueTracker.Controllers
         }
 
         // GET: Issues
-        public async Task<IActionResult> Index(int ProjectId, string SearchString, bool GetCurrentUserIssues, bool OrderByPriority, string OrderProperty, bool OrderByDescending, bool GetCompletedIssues)
+        public async Task<IActionResult> Index(string SearchString, bool GetCurrentUserIssues, string OrderProperty, bool OrderByDescending)
         {
             var issues = from i in _context.Issue 
                          where i.Discriminator == "Issue"
@@ -123,7 +123,7 @@ namespace IssueTracker.Controllers
                 }
                 
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Issues", "Projects", new { projectName = issue.ProjectName } );
             }
             return View(issue);
         }
@@ -145,7 +145,7 @@ namespace IssueTracker.Controllers
             }
 
             // Get users
-            List<User> users = new List<User>();
+            //List<User> users = new List<User>();
             IQueryable<string> userQuery = from m in _context.User
                                            select m.UserName;
 
@@ -173,7 +173,7 @@ namespace IssueTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Deadline,Priority,UserName")] Issue issue)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Deadline,Priority,UserName,ProjectName")] Issue issue)
         {
             if (id != issue.Id)
             {
@@ -212,7 +212,7 @@ namespace IssueTracker.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Issues", "Projects", new { projectName = issue.ProjectName });
             }
             return View(issue);
         }
@@ -245,7 +245,7 @@ namespace IssueTracker.Controllers
             var issue = await _context.Issue.FindAsync(id);
             _context.Issue.Remove(issue);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Issues", "Projects", new { projectName = issue.ProjectName }); ;
         }
 
         // GET: Issues/Delete/5
@@ -280,7 +280,7 @@ namespace IssueTracker.Controllers
 
             _context.Issue.Remove(issue);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("Issues", "Projects", new { projectName = issue.ProjectName });
         }
 
         private bool IssueExists(int id)

@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<IssueTracker.Models.Issue>
 
 @{
-    ViewData["Title"] = ViewData["ProjectName"] + " Issues";
+    ViewData["Title"] = ViewData["ProjectName"] + " Log";
 }
 
-<h1>@ViewData["ProjectName"] Issues</h1>
+<h1>@ViewData["ProjectName"] Log</h1>
 
 <p>
     
@@ -22,7 +22,7 @@
 
         <a asp-action="CreateIssue" asp-route-projectName="@ViewData["ProjectName"]"><i class="fas fa-plus-circle"></i>  Create New Issue</a>
         &nbsp &nbsp &nbsp
-        <a asp-action="IssueLogs" asp-route-projectName="@ViewData["ProjectName"]"><i class="fas fa-file-archive"></i>&nbsp View Issue Log</a>
+        <a asp-action="Issues" asp-route-projectName="@ViewData["ProjectName"]"><i class="fas fa-file"></i>&nbsp View Current Issues</a>
 </p>
 
 <table class="table" style="width:100%; table-layout: fixed;">
@@ -65,10 +65,8 @@
                 @Html.DisplayFor(modelItem => item.UserName)
             </td>
             <td>
-                <a asp-controller="Issues" asp-action="Edit" asp-route-id="@item.Id" asp-route-projectName="@ViewData["ProjectName"]">Edit</a> |
-                <a asp-controller="Issues" asp-action="Details" asp-route-id="@item.Id" asp-route-projectName="@ViewData["ProjectName"]">Details</a> |
-                <a asp-controller="Issues" asp-action="Archive" asp-route-id="@item.Id" asp-route-projectName="@ViewData["ProjectName"]">Archive</a> |
-                <a asp-controller="Issues" asp-action="Delete" asp-route-id="@item.Id" asp-route-projectName="@ViewData["ProjectName"]">Delete</a>
+                <a asp-controller="IssueLogs" asp-action="Details" asp-route-id="@item.Id" asp-route-projectName="@ViewData["ProjectName"]">Details</a> |
+                <a asp-controller="IssueLogs" asp-action="Delete" asp-route-id="@item.Id" asp-route-projectName="@ViewData["ProjectName"]">Delete</a>
             </td>
         </tr>
 }

@@ -17,6 +17,7 @@ namespace IssueTracker.Models
             DeadlineMet = issue.Deadline < DateTime.UtcNow;
             Priority = issue.Priority;
             UserName = issue.UserName;
+            ProjectName = issue.ProjectName;
             Discriminator = "IssueLog";
         }
     }
