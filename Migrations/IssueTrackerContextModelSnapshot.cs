@@ -42,11 +42,15 @@ namespace IssueTracker.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsComplete")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Priority")
                         .HasColumnType("int");
+
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ProjectName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -61,11 +65,30 @@ namespace IssueTracker.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProjectId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Issue");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Issue");
+                });
+
+            modelBuilder.Entity("IssueTracker.Models.Project", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Project_1");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -305,6 +328,10 @@ namespace IssueTracker.Migrations
 
             modelBuilder.Entity("IssueTracker.Models.Issue", b =>
                 {
+                    b.HasOne("IssueTracker.Models.Project", null)
+                        .WithMany("Issues")
+                        .HasForeignKey("ProjectId");
+
                     b.HasOne("IssueTracker.Models.User", null)
                         .WithMany("Issues")
                         .HasForeignKey("UserId");
@@ -359,6 +386,11 @@ namespace IssueTracker.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("IssueTracker.Models.Project", b =>
+                {
+                    b.Navigation("Issues");
                 });
 
             modelBuilder.Entity("IssueTracker.Models.User", b =>

@@ -16,8 +16,10 @@ namespace IssueTracker.Data
         {
         }
 
+        public DbSet<Issue> Project { get; set; }
         public DbSet<Issue> Issue { get; set; }
         public DbSet<IssueLog> IssueLog { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<IssueTracker.Models.Project> Project_1 { get; set; }
     }
 }

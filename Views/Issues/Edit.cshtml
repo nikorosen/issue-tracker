@@ -46,7 +46,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="Projects" asp-action="Issues" asp-route-projectName="@ViewData["ProjectName"]"> Back to List</a>
 </div>
 
 @section Scripts {

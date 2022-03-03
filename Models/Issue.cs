@@ -25,7 +25,11 @@ namespace IssueTracker.Models
         // nav properties
         [DisplayName("Assigned User")]
         public string? UserName { get; set; }
-        //public User User { get; set; }
         
+        [DisplayName("Project id")]
+
+        [Required]
+        public string ProjectName { get; set; }
+
     }
 }

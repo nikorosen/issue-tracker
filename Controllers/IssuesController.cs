@@ -21,9 +21,12 @@ namespace IssueTracker.Controllers
         }
 
         // GET: Issues
-        public async Task<IActionResult> Index(string SearchString, bool GetCurrentUserIssues, bool OrderByPriority, string OrderProperty, bool OrderByDescending, bool GetCompletedIssues)
+        public async Task<IActionResult> Index(int ProjectId, string SearchString, bool GetCurrentUserIssues, bool OrderByPriority, string OrderProperty, bool OrderByDescending, bool GetCompletedIssues)
         {
-            var issues = from i in _context.Issue where i.Discriminator == "Issue" select i;
+            var issues = from i in _context.Issue 
+                         where i.Discriminator == "Issue"
+                         //&& i.ProjectId == ProjectId 
+                         select i;
 
             //issues = issues.Where(i => !i.IsComplete);
 
@@ -63,8 +66,11 @@ namespace IssueTracker.Controllers
         }
 
         // GET: Issues/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string projectName)
         {
+
+            ViewData["ProjectName"] = projectName;
+
             if (id == null)
             {
                 return NotFound();
@@ -81,7 +87,7 @@ namespace IssueTracker.Controllers
         }
 
         // GET: Issues/Create
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(string projectName)
         {
             List<User> users = new List<User>();
                 IQueryable<string> userQuery = from m in _context.User
@@ -89,6 +95,7 @@ namespace IssueTracker.Controllers
 
             SelectList userNames = new SelectList(await userQuery.ToListAsync());
             ViewData["UserName"] = userNames;
+            ViewData["ProjectName"] = projectName;
 
             return View();
         }
@@ -98,7 +105,7 @@ namespace IssueTracker.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,Deadline,Priority,UserName")] Issue issue)
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Deadline,Priority,UserName,ProjectName")] Issue issue)
         {
             if (ModelState.IsValid)
             {
@@ -122,8 +129,10 @@ namespace IssueTracker.Controllers
         }
 
         // GET: Issues/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string projectName)
         {
+            ViewData["ProjectName"] = projectName;
+
             if (id == null)
             {
                 return NotFound();
@@ -209,8 +218,10 @@ namespace IssueTracker.Controllers
         }
 
         // GET: Issues/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, string projectName)
         {
+            ViewData["ProjectName"] = projectName;
+
             if (id == null)
             {
                 return NotFound();
@@ -238,8 +249,10 @@ namespace IssueTracker.Controllers
         }
 
         // GET: Issues/Delete/5
-        public async Task<IActionResult> Archive(int? id)
+        public async Task<IActionResult> Archive(int? id, string projectName)
         {
+            ViewData["ProjectName"] = projectName;
+
             if (id == null)
             {
                 return NotFound();

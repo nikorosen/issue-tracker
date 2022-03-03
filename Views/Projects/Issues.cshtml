@@ -1,0 +1,74 @@
+﻿@model IEnumerable<IssueTracker.Models.Issue>
+
+@{
+    ViewData["Title"] = ViewData["ProjectName"] + " Issues";
+}
+
+<h1>@ViewData["ProjectName"] Issues</h1>
+
+<p>
+    
+
+     @using (Html.BeginForm()){    
+         <p> Username: @Html.TextBox("SearchString") <br />   
+         
+         Sort by: @Html.DropDownList("OrderProperty", 
+                (IEnumerable<SelectListItem>)ViewData["OrderProperties"]) <br/>
+         @*Show completed issues: @Html.CheckBox("GetCompletedIssues") <br />*@
+         Sort by Descending: @Html.CheckBox("OrderByDescending") <br />
+                  Show my issues: @Html.CheckBox("GetCurrentUserIssues") <br />
+         <input type="submit" value="Filter" /></p> 
+        } 
+
+        <a asp-action="CreateIssue" asp-route-projectName="@ViewData["ProjectName"]"><i class="fas fa-plus-circle"></i>  Create New Issue</a>
+</p>
+
+<table class="table" style="width:100%; table-layout: fixed;">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+@*            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Deadline)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Priority)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr  style="word-wrap:break-word; ">
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+@*            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Deadline)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Priority)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                <a asp-controller="Issues" asp-action="Edit" asp-route-id="@item.Id" asp-route-projectName="@ViewData["ProjectName"]">Edit</a> |
+                <a asp-controller="Issues" asp-action="Details" asp-route-id="@item.Id" asp-route-projectName="@ViewData["ProjectName"]">Details</a> |
+                <a asp-controller="Issues" asp-action="Archive" asp-route-id="@item.Id" asp-route-projectName="@ViewData["ProjectName"]">Archive</a> |
+                <a asp-controller="Issues" asp-action="Delete" asp-route-id="@item.Id" asp-route-projectName="@ViewData["ProjectName"]">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

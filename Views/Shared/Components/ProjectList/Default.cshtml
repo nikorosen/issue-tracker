@@ -1,0 +1,9 @@
+﻿@model IEnumerable<IssueTracker.Models.Project>
+
+    @foreach (var project in Model)
+    {
+<li class="nav-item">
+    @*@Html.ActionLink(project.Name, "Issues", "ProjectsController", new {projectName = project.Name});*@
+    <a class="nav-link" asp-controller="Projects" asp-action="Issues" asp-route-projectName="@project?.Name"><i class="fas fa-file"></i> @project.Name</a>
+</li>
+    }
